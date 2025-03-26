@@ -2,32 +2,53 @@
     import { reactive } from "vue";
     import Alerta from "./Alerta.vue";
 
+    const props = defineProps({
+        nombre: {
+            type: String,
+            required: true
+        },
+        propietario: {
+            type: String,
+            required: true
+        },
+        email: {
+            type: String,
+            required: true
+        },
+        alta: {
+            type: String,
+            required: true
+        },     
+        sintomas: {
+            type: String,
+            required: true
+        }     
+    })
+
     const alerta = reactive({
         tipo: '',
         mensaje: ''
     });
 
-    const paciente = reactive({
-        nombre: '',
-        propietario: '',
-        email: '',
-        alta: '',
-        sintomas: ''
-    });
 
+    const emit = defineEmits([
+        'update:nombre',
+        'update:propietario',
+        'update:email',
+        'update:alta',
+        'update:sintomas',
+        'guardar-paciente'
+    ]);
 
     const validar = () => {
 
-        if (Object.values(paciente).includes('')) {
+        if (Object.values(props).includes('')) {
             alerta.mensaje = 'Todos los campos son obligatorios';
             alerta.tipo = 'error';
             return;
         }
 
-        console.log('Validar..')
-        alerta.mensaje = 'Guardado correctamente';
-        alerta.tipo = 'exito';
-
+        emit('guardar-paciente');
     }
 
 </script>
@@ -56,7 +77,8 @@
                     Nombre mascota
                 </label>
                 <input 
-                    v-model="paciente.nombre"
+                    @input="$emit('update:nombre', $event.target.value)"
+                    :value="nombre"
                     id="mascota" 
                     class="border-2 border-gray-400 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                     placeholder="Nombre de la mascota" 
@@ -70,7 +92,8 @@
                     Nombre Propietario
                 </label>
                 <input 
-                    v-model="paciente.propietario"
+                    @input="$emit('update:propietario', $event.target.value)"
+                    :value="propietario"
                     id="propietario" 
                     class="border-2 border-gray-400 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                     placeholder="Nombre de propietario" 
@@ -84,7 +107,8 @@
                     Email
                 </label>
                 <input 
-                    v-model="paciente.email"
+                    @input="$emit('update:email', $event.target.value)"
+                    :value="email"
                     id="email" 
                     class="border-2 border-gray-400 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                     placeholder="Email de propietario" 
@@ -98,7 +122,8 @@
                     Alta
                 </label>
                 <input 
-                    v-model="paciente.alta"
+                    @input="$emit('update:alta', $event.target.value)"
+                    :value="alta"
                     id="alta" 
                     class="border-2 border-gray-400 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                     type="date">
@@ -111,7 +136,8 @@
                     Sintomas
                 </label>
                 <textarea
-                    v-model="paciente.sintomas" 
+                    @input="$emit('update:sintomas', $event.target.value)"
+                    :value="sintomas"
                     id="sintomas" 
                     class="border-2 border-gray-400 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
                     placeholder="Escribe los sintomas" />
