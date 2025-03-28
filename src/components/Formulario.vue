@@ -3,6 +3,10 @@
     import Alerta from "./Alerta.vue";
 
     const props = defineProps({
+        id: {
+            type: [String, null],
+            required: true
+        },
         nombre: {
             type: String,
             required: true
@@ -48,6 +52,8 @@
             return;
         }
 
+        alerta.mensaje = 'Guardado correctamente';
+        alerta.tipo = 'exito';      
         emit('guardar-paciente');
     }
 
