@@ -23,13 +23,11 @@
       const { id } =  paciente;
       const index = pacientes.value.findIndex(p => p.id == id);
 
-      if(index > 0) pacientes.value[index] = { ...paciente }
+      if(index >= 0) pacientes.value[index] = { ...paciente }
 
     } else {
       paciente.id = uuidv4();
 
-      console.log('pacienteviejo', paciente);
-      console.log('pacientenuevo', {...paciente});
       pacientes.value.push({
         ...paciente
       });
@@ -43,6 +41,16 @@
       sintomas: "",
       id: null,
     });
+  }
+
+  const actualizarPaciente = (id) => {
+    const index = pacientes.value.findIndex(p => p.id == id);
+
+    if(index >= 0) {
+      const pacienteEditar = pacientes.value[index];
+
+      Object.assign(paciente, pacienteEditar);
+    }
   }
 
 </script>
@@ -75,6 +83,7 @@
             v-bind:key="paciente.id"
             v-for="paciente in pacientes"
             :paciente="paciente"
+            @actualizar-paciente="actualizarPaciente"
           />
         </div>
       

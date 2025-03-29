@@ -55,6 +55,14 @@
         alerta.mensaje = 'Guardado correctamente';
         alerta.tipo = 'exito';      
         emit('guardar-paciente');
+
+
+        setTimeout(()=> {
+            Object.assign(alerta, {
+                mensaje: '',
+                tipo: ''
+            })
+        }, 1500)
     }
 
 </script>
